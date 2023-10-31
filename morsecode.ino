@@ -1,58 +1,44 @@
-// Define the built-in LED pin and current index for tracking characters
-int led_builtIn = 13;
-volatile int currentindex = 0;
+// Pin configuration
+int led_builtIn = 13; // Pin number for the built-in LED
+volatile int currentindex = 0; // Index to keep track of the current character
 
-// Define the button pin and initialize a name variable
-int buttonPin = 2;
-String name = "Saksham";
-bool isBlinking = false;
+// Button configuration
+int buttonPin = 2; // Pin number for the button
+String name = "Saksham"; // Name to be blinked in Morse code
+bool isBlinking = false; // Flag to indicate if blinking is in progress
 
-// Setup function runs once at the start
+// Setup function runs once at the beginning
 void setup() {
-  // Set the LED pin as an output
-  pinMode(led_builtIn, OUTPUT);
-  
-  // Set the button pin as an input with a pull-up resistor
-  pinMode(buttonPin, INPUT_PULLUP);
-
-  // Attach an interrupt to the button pin that triggers the 'start' function on a falling edge
-  attachInterrupt(digitalPinToInterrupt(buttonPin), start, FALLING);
-
-  // Start serial communication for debugging
-  Serial.begin(9600);
+  pinMode(led_builtIn, OUTPUT); // Set LED pin as output
+  pinMode(buttonPin, INPUT_PULLUP); // Set button pin as input with pull-up resistor
+  attachInterrupt(digitalPinToInterrupt(buttonPin), start, FALLING); // Attach interrupt to the button pin, trigger on falling edge, call start function
+  Serial.begin(9600); // Start serial communication for debugging
 }
 
-// 'start' function is triggered by the button press
+// Interrupt service routine (ISR) for the button press
 void start() {
-  // Set the flag to indicate that blinking should start
-  isBlinking = true;
-  // Reset the character index
-  currentindex = 0;
+  isBlinking = true; // Set the flag to start blinking
+  currentindex = 0; // Reset the character index
 }
 
-// Loop function runs repeatedly
+// Main loop that runs continuously
 void loop() {
-  // If the flag is set, start blinking the name
-  if (isBlinking) {
-    Serial.println(name);
-    BlinkName();
-    // Reset the flag to stop continuous blinking
-    isBlinking = false;
+  if (isBlinking) { // Check if blinking is requested
+    Serial.println(name); // Print the name to serial for debugging
+    BlinkName(); // Call the function to blink the name in Morse code
+    isBlinking = false; // Reset the blinking flag
   }
 }
 
-// Function to blink the name character by character
+// Function to blink the characters of the name in Morse code
 void BlinkName() {
-  // Loop through each character in the name
-  for (currentindex; currentindex < name.length(); currentindex++) {
-    // Blink the Morse code representation of the character
-    BlinkCharacters(name[currentindex]);
-    // Delay before moving to the next character
-    delay(1000);
+  for (currentindex; currentindex < name.length(); currentindex++) { // Loop through each character in the name
+    BlinkCharacters(name[currentindex]); // Call the function to blink the Morse code for the current character
+    delay(1000); // Delay between characters
   }
 }
 
-// Function to blink a dot in Morse code
+// Functions to blink Morse code for dots and dashes
 void BlinkDot() {
   digitalWrite(led_builtIn, HIGH);
   delay(300);
@@ -60,7 +46,6 @@ void BlinkDot() {
   delay(300);
 }
 
-// Function to blink a dash in Morse code
 void BlinkDash() {
   digitalWrite(led_builtIn, HIGH);
   delay(900);
@@ -68,20 +53,141 @@ void BlinkDash() {
   delay(300);
 }
 
-// Function to blink the Morse code representation of a character
+// Function to blink Morse code for each character
 void BlinkCharacters(char curcharacter) {
-  // Switch case to determine the Morse code pattern for each character
-  switch (curcharacter) {
-    case 'a':
-      BlinkDot();
-      BlinkDash();
-      break;
-    case 'b':
-      BlinkDash();
-      BlinkDot();
-      BlinkDot();
-      BlinkDot();
-      break;
-    // Continue the switch case for the remaining characters...
+  // Morse code for each letter
+  if (curcharacter == 'a') {
+    BlinkDot();
+    BlinkDash();
+  }
+    if (curcharacter == 'b') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 'c') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 'd') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 'e') {
+    BlinkDot();
+  }
+  if (curcharacter == 'f') {
+    BlinkDot();
+    BlinkDot();
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 'g') {
+    BlinkDash();
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 'h') {
+    BlinkDot();
+    BlinkDot();
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 'i') {
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 'j') {
+    BlinkDot();
+    BlinkDash();
+    BlinkDash();
+    BlinkDash();
+  }
+  if (curcharacter == 'k') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDash();
+  }
+  if (curcharacter == 'l') {
+    BlinkDot();
+    BlinkDash();
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 'm') {
+    BlinkDash();
+    BlinkDash();
+  }
+  if (curcharacter == 'n') {
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 'o') {
+    BlinkDash();
+    BlinkDash();
+    BlinkDash();
+  }
+  if (curcharacter == 'p') {
+    BlinkDot();
+    BlinkDash();
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 'q') {
+    BlinkDash();
+    BlinkDash();
+    BlinkDot();
+    BlinkDash();
+  }
+  if (curcharacter == 'r') {
+    BlinkDot();
+    BlinkDash();
+    BlinkDot();
+  }
+  if (curcharacter == 's') {
+    BlinkDot();
+    BlinkDot();
+    BlinkDot();
+  }
+  if (curcharacter == 't') {
+    BlinkDash();
+  }
+  if (curcharacter == 'u') {
+    BlinkDot();
+    BlinkDot();
+    BlinkDash();
+  }
+  if (curcharacter == 'v') {
+    BlinkDot();
+    BlinkDot();
+    BlinkDot();
+    BlinkDash();
+  }
+  if (curcharacter == 'w') {
+    BlinkDot();
+    BlinkDash();
+    BlinkDash();
+  }
+  if (curcharacter == 'x') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDot();
+    BlinkDash();
+  }
+  if (curcharacter == 'y') {
+    BlinkDash();
+    BlinkDot();
+    BlinkDash();
+    BlinkDash();
+  }
+  if (curcharacter == 'z') {
+    BlinkDash();
+    BlinkDash();
+    BlinkDot();
+    BlinkDot();
   }
 }
